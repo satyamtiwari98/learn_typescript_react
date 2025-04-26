@@ -3,6 +3,7 @@ import "./App.css";
 import Home from "./components/Home/Home";
 import Header from "./components/Shared/Header/Header";
 import Footer from "./components/Shared/Footer/Footer";
+import Todo from "./components/Todo/Todo";
 
 const App = () => {
   const routes = [
@@ -12,7 +13,7 @@ const App = () => {
     },
     {
       path: "/todo",
-      element: "",
+      element: <Todo />,
     },
     {
       path: "/rotate",
@@ -23,11 +24,13 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <Routes>
-        {routes.map((route, index) => (
-          <Route path={route.path} element={route.element} key={index} />
-        ))}
-      </Routes>
+      <div className="inner-container">
+        <Routes>
+          {routes.map((route, index) => (
+            <Route path={route.path} element={route.element} key={index} />
+          ))}
+        </Routes>
+      </div>
       <Footer />
     </BrowserRouter>
   );

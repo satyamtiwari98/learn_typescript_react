@@ -1,0 +1,64 @@
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.todo-ul {
+  list-style: none;
+}
+
+.todo-txt {
+  color: black;
+  margin-left: 10px;
+}
+
+.todo-check {
+  margin-left: 10px;
+  text-decoration: line-through;
+  color: grey;
+}
+
+.todo-input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.todo-add-btn {
+  height: 50px;
+  width: 100px;
+  color: white;
+  background-color: green;
+  border: 2px solid green;
+  border-radius: 4px;
+}
+
+.todo-input {
+  height: 30px;
+  width: 80%;
+  color: black;
+  padding: 5px;
+  border: 2px solid green;
+  border-radius: 4px;
+}
+
+.pagination {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+}
+
+.todo-pagination-btn {
+  color: white;
+  background-color: brown;
+  height: 30px;
+  width: 80px;
+  border: 2px solid brown;
+  border-radius: 4px;
+}
