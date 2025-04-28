@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useImperativeHandle } from "react";
 import "./Rotate.css";
 
 const Rotate = () => {
@@ -6,10 +6,23 @@ const Rotate = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [rotation, setRotation] = useState(0); // in degrees
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [uploadImageUrl, setUploadImageUrl] = useState<string | null>(null);
+  const [upload, setUpload] = useState<boolean>(false);
+  const [rotationImage, setRotationImage] = useState<number>(0);
+  const imgRef = useRef<HTMLImageElement | null>(null); // Initialize the ref
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlaceholder(e.target.value);
   };
+
+  //   useEffect(() => {
+  //     return () => {
+  //       if (uploadImageUrl) {
+  //         URL.revokeObjectURL(uploadImageUrl);
+  //       }
+  //     };
+  //   }, [uploadImageUrl]);
 
   const drawCanvas = (angle: number) => {
     const canvas = canvasRef.current;
@@ -50,23 +63,68 @@ const Rotate = () => {
     const newRotation = (rotation + 90) % 360;
     setRotation(newRotation);
     drawCanvas(newRotation);
+    handleImageRotate();
+  };
+
+  const handleImageRotate = () => {
+    setRotationImage((prevRotationImage) => prevRotationImage + 90);
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Optionally check if the file is an image
+      if (file.type.startsWith("image/")) {
+        setSelectedImage(file);
+      } else {
+        console.error("The selected file is not an image");
+      }
+    }
+  };
+
+  const handleUploadImage = () => {
+    if (selectedImage) {
+      setUploadImageUrl(URL.createObjectURL(selectedImage));
+      setUpload(true);
+    } else {
+      console.error("No image selected");
+    }
+  };
+
+  const handleBlur = () => {
+    if (imgRef.current) {
+      imgRef.current.style.filter = "blur(2px)"; // Apply blur filter if the image is available
+    }
   };
 
   return (
     <div className="rotate-container">
       <h2>Let's Rotate Text</h2>
 
-      <div>
-        <label>Placeholder :</label>
-        <input
-          type="text"
-          placeholder="Enter Placeholder..."
-          onChange={handleInputChange}
-          value={placeholder}
-        />
+      <div className="rotate-upload-container">
+        <div>
+          <label>Upload Image :</label>
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+        </div>
+        <div>
+          <label>Placeholder :</label>
+          <input
+            type="text"
+            placeholder="Enter Placeholder..."
+            onChange={handleInputChange}
+            value={placeholder}
+          />
+        </div>
       </div>
 
-      <div>
+      <div className="rotate-btns-container">
+        <button
+          type="button"
+          className="rotate-generate-btn"
+          onClick={handleUploadImage}
+        >
+          Upload Image
+        </button>
         <button
           type="button"
           className="rotate-generate-btn"
@@ -78,12 +136,41 @@ const Rotate = () => {
 
       <canvas
         ref={canvasRef}
-        width={300}
-        height={200}
+        width={400}
+        height={300}
         style={{ display: "none" }}
       />
 
-      <div>
+      <div className="rotate-show-img-container">
+        {upload && uploadImageUrl && (
+          <div>
+            <div>
+              <img
+                width={400}
+                height={300}
+                ref={imgRef}
+                src={uploadImageUrl}
+                alt="Image not available"
+                style={{
+                  transform: `rotate(${rotationImage}deg)`, // Apply rotation
+                  transition: "transform 0.3s ease", // Smooth transition
+                  objectFit: "contain", // Ensures the image maintains its aspect ratio
+                  width: "300px", // Ensure the width remains fixed
+                  height: "300px", // Ensure the height remains fixed
+                }}
+              />
+            </div>
+            <div>
+              {/* <button
+                className="rotate-btn"
+                type="button"
+                onClick={handleImageRotate}
+              >
+                Rotate
+              </button> */}
+            </div>
+          </div>
+        )}
         {imageUrl && (
           <div className="rotate-img-sec">
             <div>
@@ -93,19 +180,19 @@ const Rotate = () => {
                 style={{ border: "1px solid #ccc", marginTop: "1rem" }}
               />
             </div>
-            <div>
-              <button
-                className="rotate-btn"
-                type="button"
-                onClick={handleRotate}
-                disabled={!placeholder}
-              >
-                Rotate
-              </button>
-            </div>
           </div>
         )}
       </div>
+      {upload && imageUrl && (
+        <div className="rotate-btns-container">
+          <button className="rotate-btn" type="button" onClick={handleRotate}>
+            Rotate
+          </button>
+          <button type="button" className="rotate-btn" onClick={handleBlur}>
+            Make it Blur
+          </button>
+        </div>
+      )}
     </div>
   );
 };

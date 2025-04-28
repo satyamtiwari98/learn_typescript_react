@@ -22,7 +22,7 @@
 }
 
 .rotate-btn {
-  width: 80px;
+  width: 120px;
   height: 30px;
   color: white;
   background-color: green;
@@ -37,4 +37,26 @@
   background-color: green;
   border-radius: 4px;
   border: 2px solid green;
+}
+
+.rotate-upload-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.rotate-show-img-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.rotate-btns-container {
+  display: flex;
+  align-items: center;
+  gap: 50px;
 }
