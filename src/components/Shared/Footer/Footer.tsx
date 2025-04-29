@@ -6,7 +6,11 @@ const Footer = () => {
       <div>
         Satyam Tiwari<b>@2025</b>
       </div>
-      <div>jsdjfnlskdnf ksdfjkdsjfk</div>
+      <div>
+        <a href="https://github.com/satyamtiwari98/learn_typescript_react.git">
+          Github Link
+        </a>
+      </div>
     </div>
   );
 };

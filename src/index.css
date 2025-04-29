@@ -2,3 +2,15 @@
   margin: 0;
   padding: 0;
 }
+
+/* Remove the blue color and underline for all anchor tags */
+a {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit the text color from the parent (or set it to a specific color if desired) */
+}
+
+/* Optional: Make sure the visited state doesn't change the color */
+a:visited {
+  color: inherit; /* Ensures visited links don't have blue color */
+  text-decoration: none; /* Removes underline after visiting */
+}
