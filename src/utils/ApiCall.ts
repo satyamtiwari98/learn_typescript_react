@@ -3,7 +3,7 @@ import axios, { Method } from "axios";
 const ApiCall = async <T>(
   url: string,
   method: Method = "GET",
-  queryParams?: Record<string, any>,
+  queryParams?: string | Record<string, any>,
   body?: Record<string, any>
 ): Promise<T> => {
   try {

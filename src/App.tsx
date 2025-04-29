@@ -5,6 +5,7 @@ import Header from "./components/Shared/Header/Header";
 import Footer from "./components/Shared/Footer/Footer";
 import Todo from "./components/Todo/Todo";
 import Rotate from "./components/Rotate/Rotate";
+import Utils from "./components/Utils/Utils";
 
 const App = () => {
   const routes = [
@@ -19,6 +20,10 @@ const App = () => {
     {
       path: "/rotate",
       element: <Rotate />,
+    },
+    {
+      path: "/utils",
+      element: <Utils />,
     },
   ];
 
