@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useImperativeHandle } from "react";
+import { useState, useRef } from "react";
 import "./Rotate.css";
 
 const Rotate = () => {
