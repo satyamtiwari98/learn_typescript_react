@@ -11,6 +11,7 @@ const Rotate = () => {
   const [upload, setUpload] = useState<boolean>(false);
   const [rotationImage, setRotationImage] = useState<number>(0);
   const imgRef = useRef<HTMLImageElement | null>(null); // Initialize the ref
+  const canvasImgRef = useRef<HTMLImageElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPlaceholder(e.target.value);
@@ -97,6 +98,59 @@ const Rotate = () => {
     }
   };
 
+  // Download feature is having some bug will work on this after sometime
+  const handleDownloadImage = (reference: string) => {
+    if (canvasImgRef.current && canvasRef.current) {
+      const canvas = canvasRef.current;
+      let image: HTMLImageElement | HTMLCanvasElement | null = imgRef.current;
+
+      // Choose the reference image based on the passed parameter
+      if (reference === "img") {
+        image = imgRef.current;
+      } else if (reference === "canvas") {
+        image = canvasImgRef.current;
+      }
+
+      if (
+        image &&
+        image.complete &&
+        image.naturalWidth &&
+        image.naturalHeight
+      ) {
+        const ctx = canvas.getContext("2d");
+
+        if (ctx) {
+          // Set canvas size to image size
+          canvas.width = image.naturalWidth;
+          canvas.height = image.naturalHeight;
+
+          // Apply rotation and blur if any
+          ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous content
+          ctx.save();
+          ctx.translate(canvas.width / 2, canvas.height / 2); // Translate to the center
+          ctx.rotate((rotation * Math.PI) / 180); // Apply rotation
+          ctx.translate(-canvas.width / 2, -canvas.height / 2); // Translate back to the original position
+
+          // Apply blur filter (if any) directly to the canvas
+          ctx.filter = image.style.filter || "none"; // Apply any existing filters (like blur) or set to 'none'
+
+          // Draw the image with transformations (e.g., blur)
+          ctx.drawImage(image, 0, 0);
+
+          ctx.restore();
+
+          // Trigger the download
+          const link = document.createElement("a");
+          link.download = "image.png"; // Set download filename
+          link.href = canvas.toDataURL("image/png"); // Convert canvas to data URL (image)
+          link.click(); // Trigger download
+        }
+      } else {
+        console.error("Image is not loaded or invalid");
+      }
+    }
+  };
+
   return (
     <div className="rotate-container">
       <h2>Let's Rotate Text</h2>
@@ -151,6 +205,7 @@ const Rotate = () => {
                 ref={imgRef}
                 src={uploadImageUrl}
                 alt="Image not available"
+                // onClick={() => handleDownloadImage("img")}
                 style={{
                   transform: `rotate(${rotationImage}deg)`, // Apply rotation
                   transition: "transform 0.3s ease", // Smooth transition
@@ -176,7 +231,9 @@ const Rotate = () => {
             <div>
               <img
                 src={imageUrl}
+                ref={canvasImgRef}
                 alt="Generated from canvas"
+                // onClick={() => handleDownloadImage("canvas")}
                 style={{ border: "1px solid #ccc", marginTop: "1rem" }}
               />
             </div>
