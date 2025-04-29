@@ -53,6 +53,19 @@ const GeneratePassword = () => {
   };
 
   const handleGeneratePassword = async () => {
+    const hasValidOption = [
+      "Numbers",
+      "Symbols",
+      "Lowercase",
+      "Uppercase",
+    ].some((option) => selectedOptions.includes(option));
+
+    if (!hasValidOption) {
+      alert(
+        "Please select at least one of: Numbers, Symbols, Lowercase, or Uppercase."
+      );
+      return;
+    }
     const params = {
       length,
       numbers: selectedOptions.includes("Numbers"),
@@ -74,6 +87,20 @@ const GeneratePassword = () => {
     }
 
     console.log(password);
+  };
+
+  const handleCopyPassword = () => {
+    if (password) {
+      // Copy password to clipboard
+      navigator.clipboard
+        .writeText(password)
+        .then(() => {
+          alert("Password copied to clipboard!");
+        })
+        .catch((error) => {
+          console.error("Failed to copy password:", error);
+        });
+    }
   };
 
   return (
@@ -106,9 +133,33 @@ const GeneratePassword = () => {
         </ul>
       </div>
       <div>
-        <button type="button" onClick={handleGeneratePassword}>
+        <button
+          type="button"
+          className="generate-btn"
+          onClick={handleGeneratePassword}
+        >
           Generate Password
         </button>
+      </div>
+      <div>
+        {/* Display the password if it's generated */}
+        {password && (
+          <div className="password-display">
+            <input
+              type="text"
+              value={password}
+              readOnly
+              className="password-input"
+            />
+            <button
+              type="button"
+              className="copy-btn"
+              onClick={handleCopyPassword}
+            >
+              Copy Password
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
