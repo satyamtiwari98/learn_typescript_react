@@ -23,10 +23,12 @@
   },
   "homepage": "https://github.com/satyamtiwari98/learn_typescript_react#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "generate-password": "^1.7.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/generate-password": "^1.5.0",
     "@types/node": "^22.15.3",
