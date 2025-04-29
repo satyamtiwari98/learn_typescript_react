@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import GeneratePassword from "../GeneratePassword/GeneratePassword";
 import "./Utils.css";
+import FlipCoin from "../FlipCoin/FlipCoin";
 
 const Utils = () => {
   const [selectedAccordian, setSelectedAccordian] = useState<string | null>(
@@ -12,8 +13,8 @@ const Utils = () => {
       id: "GP",
     },
     {
-      name: "Something Password",
-      id: "SP",
+      name: "Flip Coin",
+      id: "FC",
     },
     {
       name: "Anything Password",
@@ -46,6 +47,7 @@ const Utils = () => {
       </div>
       <div className="utils-accordian">
         {selectedAccordian === "GP" && <GeneratePassword />}
+        {selectedAccordian === "FC" && <FlipCoin />}
       </div>
     </>
   );
