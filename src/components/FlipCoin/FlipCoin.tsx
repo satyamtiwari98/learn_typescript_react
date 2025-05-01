@@ -26,7 +26,12 @@ const FlipCoin: React.FC = () => {
       <div className="coin">
         {flipping ? "Flipping..." : result ?? "Click to flip"}
       </div>
-      <button onClick={handleFlip} disabled={flipping} type="button">
+      <button
+        className="flip-btn"
+        onClick={handleFlip}
+        disabled={flipping}
+        type="button"
+      >
         {flipping ? "Flipping..." : "Flip Coin"}
       </button>
     </div>

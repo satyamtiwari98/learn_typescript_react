@@ -4,7 +4,9 @@ import "./Header.css";
 const Header = () => {
   return (
     <div className="header-container">
-      <div>Satyam Tiwari</div>
+      <div>
+        <Link to="/">Satyam Tiwari</Link>
+      </div>
       <div className="header-links-sec">
         <Link to="/">Home</Link>
         <Link to="/todo">Todo</Link>
