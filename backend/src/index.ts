@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import generatePassword from "generate-password";
 import cors from "cors";
+import axios from "axios";
 
 const app = express();
 const PORT = 3000;
@@ -41,6 +42,24 @@ app.get("/generate-password", (req: Request, res: Response) => {
   });
 
   res.json({ password });
+});
+
+app.get("/repos", async (req: Request, res: Response) => {
+  try {
+    const githubResponse = await axios.get(
+      "https://api.github.com/users/satyamtiwari98/repos"
+    );
+
+    const repos = githubResponse.data.map((repo: any) => ({
+      name: repo.name,
+      git_url: repo.git_url,
+    }));
+
+    res.json(repos);
+  } catch (error) {
+    console.error("Error fetching repos:", error);
+    res.status(500).json({ error: "Failed to fetch repositories" });
+  }
 });
 
 app.listen(PORT, () => {
