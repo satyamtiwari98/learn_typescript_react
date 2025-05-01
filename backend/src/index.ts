@@ -46,14 +46,22 @@ app.get("/generate-password", (req: Request, res: Response) => {
 
 app.get("/repos", async (req: Request, res: Response) => {
   try {
-    const githubResponse = await axios.get(
+    const repoListRes = await axios.get(
       "https://api.github.com/users/satyamtiwari98/repos"
     );
 
-    const repos = githubResponse.data.map((repo: any) => ({
-      name: repo.name,
-      git_url: repo.html_url,
-    }));
+    const repos = await Promise.all(
+      repoListRes.data.map(async (repo: any) => {
+        const languagesRes = await axios.get(repo.languages_url);
+        const languages = Object.keys(languagesRes.data); // Only get language names
+
+        return {
+          name: repo.name,
+          git_url: repo.html_url,
+          languages,
+        };
+      })
+    );
 
     res.json(repos);
   } catch (error) {
