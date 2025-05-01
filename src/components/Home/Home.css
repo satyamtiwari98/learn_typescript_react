@@ -46,3 +46,16 @@
   align-items: flex-start;
   gap: 10px;
 }
+
+.repo-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* two equal columns */
+  gap: 0.5rem 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.repo-list li {
+  padding: 0.5rem;
+  color: brown;
+}

@@ -52,7 +52,7 @@ app.get("/repos", async (req: Request, res: Response) => {
 
     const repos = githubResponse.data.map((repo: any) => ({
       name: repo.name,
-      git_url: repo.git_url,
+      git_url: repo.html_url,
     }));
 
     res.json(repos);
